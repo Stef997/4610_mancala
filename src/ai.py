@@ -1,6 +1,8 @@
 """
 Python algorithm for a mancal robot with an
 Alpha Beta Pruning strategy
+
+Extremely rough by the way
 """
 
 import math
@@ -18,7 +20,7 @@ def miniMax(board, depth, player):
 	#Score representing utility of move
 	score = -math.inf
 
-	if (player1Marbles+player2Marbles) == 0:
+	if (board[1] + board[3]) == 0:
 		return (-1, -1)
 
 	if depth == 0:
@@ -28,23 +30,26 @@ def miniMax(board, depth, player):
 	Traverse through possible moves return the score based
 	on bestMove() and minimize or maximize based on the player
 	"""
-	#possibleMove(board)
+	#nextMove(board)
 	
 	"""
 	return the best move for the maximizing or minimizing player
 	"""
-	#if maximizePlayer:
-
 	 
 
-	return score, move
+	return move
 
-def possibleMove(board):
+def nextMove(board):
+	#TODO - specify player to choose move for
+	nextMove = 0
+	nextBoard = board
+	score = 0
+
 	#Holds all the non-empty buckets or possible moves
 	moves = []
 
 	#Represents the current bucket being checked
-	bucket = 1
+	bucket = 0
 
 	#Loops through all of player 1 buckets
 	for marbles in board[1]:
@@ -53,6 +58,45 @@ def possibleMove(board):
 			moves.append(bucket)
 		#Check next bucket
 		bucket += 1
+
+	#Loop through non-empty spots
+	for move in moves:
+		#Check if non-empty spot belongs to player 1
+		if(move <= 6)
+			#Spot to deposit next marble
+			spot = move + 1
+			#Number of marbles retrieved from spot
+			marbles = nextBoard[1][move]
+			#Deposit marbles until none left
+			while marbles > 0:
+				if spot < 6:
+					#Spot is player 1's mancala
+					if spot == 6:
+						nextBoard[0] + 1
+					#Add one to the next player 1 spot
+					nextBoard[1][spot] += 1
+					marbles - 1
+					spot + 1
+				else:
+					#Spot is player 2's mancala
+					if spot == 12:
+						nextBoard[2] += 1
+					#Add one to the next player 2 spot
+					nextBoard[3][spot] += 1
+					marbles -1
+					spot + 1
+		"""			
+		if the heuristic for current move is highest replace score,
+		replace move and repeat loop
+		"""
+		if bestMove(nextBoard) > score:
+			score = bestMove(nextBoard)
+			nextMove = move
+
+
+
+
+
 
 
 	
