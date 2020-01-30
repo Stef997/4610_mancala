@@ -145,3 +145,97 @@ def printNextMove(player, player1Mancala, player1Marbles, player2Mancala,
 
 	#Call a function to look a certain amount of moves ahead
 	miniMax(board, depth, player)
+	
+	 
+1
+import java.io.*;
+2
+import java.util.*;
+3
+import java.text.*;
+4
+import java.math.*;
+5
+import java.util.regex.*;
+6
+​
+7
+public class Solution {
+8
+​
+9
+    static void printNextMove(int player, int player1Mancala, int[] player1Marbles, int player2Mancala, int[] player2Marbles) {
+10
+​
+11
+​
+12
+    }
+13
+​
+14
+   public static void main(String[] args) {
+15
+        Scanner in = new Scanner(System.in);
+16
+        int _player;
+17
+        _player = in.nextInt();
+18
+        
+19
+        int _player1Mancala;
+20
+        _player1Mancala = in.nextInt();
+21
+        
+22
+        
+23
+        int _player1Marbles_size = 6;
+24
+        int[] _player1Marbles = new int[_player1Marbles_size];
+25
+        int _player1Marbles_item;
+26
+        for(int _player1Marbles_i = 0; _player1Marbles_i < _player1Marbles_size; _player1Marbles_i++) {
+27
+            _player1Marbles_item = in.nextInt();
+28
+            _player1Marbles[_player1Marbles_i] = _player1Marbles_item;
+29
+        }
+30
+        
+31
+        int _player2Mancala;
+32
+        _player2Mancala = in.nextInt();
+33
+        
+34
+        
+35
+        int _player2Marbles_size = 6;
+36
+        int[] _player2Marbles = new int[_player2Marbles_size];
+37
+        int _player2Marbles_item;
+38
+        for(int _player2Marbles_i = 0; _player2Marbles_i < _player2Marbles_size; _player2Marbles_i++) {
+39
+            _player2Marbles_item = in.nextInt();
+40
+            _player2Marbles[_player2Marbles_i] = _player2Marbles_item;
+41
+        }
+42
+        
+43
+        printNextMove(_player, _player1Mancala, _player1Marbles, _player2Mancala, _player2Marbles);
+44
+        
+45
+    }
+46
+}
