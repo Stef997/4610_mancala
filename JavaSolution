@@ -1,0 +1,60 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    static void printNextMove(int player, int player1Mancala, int[] player1Marbles, int player2Mancala, int[] player2Marbles) {
+        //Get the total of the each players marbles for heuristic
+        int player1MarblesTotal = 0;
+        int player2MarblesTotal = 0;
+
+    }
+
+   public static void main(String[] args) {
+        //Player is defined as next integer in system input stream buffer
+        Scanner in = new Scanner(System.in);
+        int _player;
+        _player = in.nextInt();
+        
+        //Player one's mancala is defined as the next integer in the system input stream buffer
+        int _player1Mancala;
+        _player1Mancala = in.nextInt();
+        
+        //Integer representing the amount of marble positions
+        int _player1Marbles_size = 6;
+        //Integer array representing the row of marbles with specified size
+        int[] _player1Marbles = new int[_player1Marbles_size];
+        //Integer representing the amount of marbles in the spot
+        int _player1Marbles_item;
+        //Iterate through each marble position
+        for(int _player1Marbles_i = 0; _player1Marbles_i < _player1Marbles_size; _player1Marbles_i++) {
+            //Amount of marbles in the current players marble position are the next number in input stream buffer
+            _player1Marbles_item = in.nextInt();
+            _player1Marbles[_player1Marbles_i] = _player1Marbles_item;
+        }
+       
+        //Player two's mancala is defined as the next integer in the system input stream buffer
+        int _player2Mancala;
+        _player2Mancala = in.nextInt();
+        
+        //Integer representing the amount of marble positions
+        int _player2Marbles_size = 6;        
+        //Integer array representing the row of marbles with specified size
+        int[] _player2Marbles = new int[_player2Marbles_size];
+        //Integer representing the amount of marbles in the spot
+        int _player2Marbles_item;
+        //Add 1 to the marbles until size is reached
+        for(int _player2Marbles_i = 0; _player2Marbles_i < _player2Marbles_size; _player2Marbles_i++) {
+            //Amount of marbles in the current players marble position are the next number in input stream buffer
+            _player2Marbles_item = in.nextInt();
+            _player2Marbles[_player2Marbles_i] = _player2Marbles_item;
+        }
+        
+        //Print next move with the current player and the curent state of mancala counts and marbles
+        printNextMove(_player, _player1Mancala, _player1Marbles, _player2Mancala, _player2Marbles);
+        
+    }
+}
