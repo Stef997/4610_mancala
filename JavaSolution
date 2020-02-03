@@ -5,12 +5,32 @@ import java.math.*;
 import java.util.regex.*;
 
 public class Solution {
+    
+    int makeMove(int[] board, player){
+        /*
+        TODO - Make a move and return the move with the highest potential score 
+        for the specified player based on the current board representation
+        */
+    }
 
     static void printNextMove(int player, int player1Mancala, int[] player1Marbles, int player2Mancala, int[] player2Marbles) {
         //Get the total of the each players marbles for heuristic
         int player1MarblesTotal = 0;
         int player2MarblesTotal = 0;
-
+        int heuristic = 0;
+        
+        //Represent the mancala board
+        int[] board = new int[player1Mancala, player1Marbles, player2Mancala, player1Marbles];
+        
+        //Make a move and evaluate the move
+        //move = makeMove(board, player)
+        
+        //Calculate the huerisitic
+        if(player == 1){
+            heuristic = (player1Marbles - player2Marbles) + ((player1Mancala - player2Mancala) * 2);    
+        }else if(player == 2){
+            heuristic = (player2Marbles - player1Marbles) + ((player2Mancala - player1Mancala) * 2);
+        }
     }
 
    public static void main(String[] args) {
