@@ -3,34 +3,113 @@ import java.util.*;
 import java.text.*;
 import java.math.*;
 import java.util.regex.*;
+import java.lang.*;
 
 public class Solution {
     
-    int makeMove(int[] board, player){
-        /*
-        TODO - Make a move and return the move with the highest potential score 
-        for the specified player based on the current board representation
-        */
+    int score(int board[], int player){
+        
+        int score = 0;
+        
+        int player1Mancala = board[0];
+        int player2Mancala = board[2];
+        int[] player1Marbles = board[1];
+        int[] player1Marbles = board[3];
+
+        if(player == 1){
+            score = (player1Marbles - player2Marbles) + ((player1Mancala - player2Mancala) * 2);    
+        }else if(player == 2){
+            score = (player2Marbles - player1Marbles) + ((player2Mancala - player1Mancala) * 2);
+        }
+        
+        return score;
+    }
+    
+    int makeMove(int[] board, int player, int move){ 
+        int player1Mancala = board[0];
+        int player2Mancala = board[2];
+        int[] player1Marbles = board[1];
+        int[] player1Marbles = board[3];
+        int marblesToMove = 0;
+        int spot = move;
+
+        
+        if(player == 1){
+            marblesToMove = player1Marbles[move];
+            player1Marbles[move] = 0;
+        }else{
+            marblesToMove = player2Marbles[move];
+            player2Marbles[move] = 0;
+        }
+                
+        while(marblesToMove > 0){
+            if(player == 1){
+                int marbleSide = player1Marbles;
+                //Get distance to the end of players marbles spot
+                int distanceToMancala = player1Marbles.length() - spot;
+
+                //Check if mancala is next spot
+                if(distanceToMancala == 0){
+                    /*Add 1 to player 1's mancala and then switch the 
+                    current marbles side being added to the player 2's side
+                    */
+                    ++player1Mancala;
+                    spot = 1;
+                    marbleSide = player2Marbles;
+                }else if(marblesToMove !- 0){
+                    /*add 1 to the next moves spot, move to next spot and evaluate
+                    */
+                    ++marbleSide[spot+1];
+                    ++spot;
+                }else{
+                    //Done making move
+                    return score(board[], player);
+                }
+            }else{
+                int marbleSide = player2Marbles;
+                //Get distance to the end of players marbles spot
+                int distanceToMancala = player2Marbles.length() - spot;
+
+                //Check if mancala is next spot
+                if(distanceToMancala == 0){
+                    /*Add 1 to player 1's mancala and then switch the 
+                    current marbles side being added to the player 2's side
+                    */
+                    ++player1Mancala;
+                    spot = 1;
+                    marbleSide = player1Marbles;
+                }else if(marblesToMove !- 0){
+                    /*add 1 to the next moves spot, move to next spot and evaluate
+                    */
+                    ++marbleSide[spot+1];
+                    ++spot;
+                }else{
+                    //Done making move
+                    return score(board[], player);
+                }
+            }
+        }
+    }
+    
+    int findMove(int[] board, int player){
+        int player1Mancala = board[0];
+        int player2Mancala = board[2];
+        int[] player1Marbles = board[1];
+        int[] player1Marbles = board[3];
+        
+        int move = Integer.MIN_VALUE;
+        int bestScore = Integer.MIN_VALUE;
+        
+        return move;
     }
 
     static void printNextMove(int player, int player1Mancala, int[] player1Marbles, int player2Mancala, int[] player2Marbles) {
-        //Get the total of the each players marbles for heuristic
-        int player1MarblesTotal = 0;
-        int player2MarblesTotal = 0;
-        int heuristic = 0;
+     
         
         //Represent the mancala board
-        int[] board = new int[player1Mancala, player1Marbles, player2Mancala, player1Marbles];
+        int[] board = new int[player1Mancala, player1Marbles, player2Mancala, player2Marbles];
         
-        //Make a move and evaluate the move
-        //move = makeMove(board, player)
-        
-        //Calculate the huerisitic
-        if(player == 1){
-            heuristic = (player1Marbles - player2Marbles) + ((player1Mancala - player2Mancala) * 2);    
-        }else if(player == 2){
-            heuristic = (player2Marbles - player1Marbles) + ((player2Mancala - player1Mancala) * 2);
-        }
+        //Find next move
     }
 
    public static void main(String[] args) {
