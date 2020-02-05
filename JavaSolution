@@ -56,7 +56,7 @@ public class Solution {
                     ++player1Mancala;
                     spot = 1;
                     marbleSide = player2Marbles;
-                }else if(marblesToMove !- 0){
+                }else if(marblesToMove != 0){
                     /*add 1 to the next moves spot, move to next spot and evaluate
                     */
                     ++marbleSide[spot+1];
@@ -78,7 +78,7 @@ public class Solution {
                     ++player1Mancala;
                     spot = 1;
                     marbleSide = player1Marbles;
-                }else if(marblesToMove !- 0){
+                }else if(marblesToMove != 0){
                     /*add 1 to the next moves spot, move to next spot and evaluate
                     */
                     ++marbleSide[spot+1];
@@ -90,7 +90,7 @@ public class Solution {
             }
         }
     }
-    
+
     int findMove(int[] board, int player){
         int player1Mancala = board[0];
         int player2Mancala = board[2];
@@ -99,6 +99,34 @@ public class Solution {
         
         int move = Integer.MIN_VALUE;
         int bestScore = Integer.MIN_VALUE;
+        
+        /*For all possible moves test the players move and 
+        evaluate the score after the move then test the 
+        other players best response to the move (Repeat for a
+        desired depth). At the end chose the game state with the
+        best values for the player. Could combine scores to find
+        the best path.
+        */
+        List<Integer> possibleMovesList = new ArrayList<Integer>();
+            
+        if(player == 1){
+            for(int marbleSpot: player1Marbles){
+                //Marble spot is not empty and is a possible move
+                if(marbleSpot != 0){
+                    //Saves the number of the possible spots
+                    possibleMovesList.add(marbleSpot);
+                }
+            }
+            for(int theMove: possibleMove)
+        }else{
+           for(int marbleSpot: player2Marbles){
+                 //Marble spot is not empty and is a possible move
+                if(marbleSpot != 0){
+                    //Saves the number of the possible spots
+                    possibleMovesList.add(marbleSpot);
+                }
+            }
+        }
         
         return move;
     }
