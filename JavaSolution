@@ -1,245 +1,170 @@
-import java.io.*;
-import java.util.*;
-import java.text.*;
-import java.math.*;
-import java.util.regex.*;
-import java.lang.*;
+/*
+February 8th 2020
+
+A Mancala bot which uses a greedy algorithm approach to find the moves which keeps
+the most marbles possible in the bots mancala and on the bots side of the board  
+*/
+
+import java.util.Scanner;
+import java.lang.Integer;
 
 public class Solution {
-    
-    int score(int board[], int player){
+    static void printNextMove(int player, int player1Mancala, int[] player1Marbles, 
+                              int player2Mancala, int[] player2Marbles) {
         
-        int score = 0;
+        //All the scores for the move available
+        int[] allScores = new int[6];
         
-        int player1Mancala = board[0];
-        int player2Mancala = board[2];
-        int[] player1Marbles = board[1];
-        int[] player1Marbles = board[3];
-
-        if(player == 1){
-            score = (player1Marbles - player2Marbles) + ((player1Mancala - player2Mancala) * 2);    
-        }else if(player == 2){
-            score = (player2Marbles - player1Marbles) + ((player2Mancala - player1Mancala) * 2);
-        }
-        
-        return score;
-    }
-    
-    int makeMove(int[] board, int player, int move){ 
-        int player1Mancala = board[0];
-        int player2Mancala = board[2];
-        int[] player1Marbles = board[1];
-        int[] player1Marbles = board[3];
-        int marblesToMove = 0;
-        int spot = move;
-
-        
-        if(player == 1){
-            marblesToMove = player1Marbles[move];
-            player1Marbles[move] = 0;
-        }else{
-            marblesToMove = player2Marbles[move];
-            player2Marbles[move] = 0;
-        }
-                
-        while(marblesToMove > 0){
-            if(player == 1){
-                int marbleSide = player1Marbles;
-                //Get distance to the end of players marbles spot
-                int distanceToMancala = player1Marbles.length() - spot;
-
-                //Check if mancala is next spot
-                if(distanceToMancala == 0){
-                    /*Add 1 to player 1's mancala and then switch the 
-                    current marbles side being added to the player 2's side
-                    */
-                    ++player1Mancala;
-                    spot = 1;
-                    marbleSide = player2Marbles;
-                }else if(marblesToMove != 0){
-                    /*add 1 to the next moves spot, move to next spot and evaluate
-                    */
-                    ++marbleSide[spot+1];
-                    ++spot;
-                }else{
-                    //Done making move
-                    return score(board[], player);
-                }
-            }else{
-                int marbleSide = player2Marbles;
-                //Get distance to the end of players marbles spot
-                int distanceToMancala = player2Marbles.length() - spot;
-
-                //Check if mancala is next spot
-                if(distanceToMancala == 0){
-                    /*Add 1 to player 1's mancala and then switch the 
-                    current marbles side being added to the player 2's side
-                    */
-                    ++player1Mancala;
-                    spot = 1;
-                    marbleSide = player1Marbles;
-                }else if(marblesToMove != 0){
-                    /*add 1 to the next moves spot, move to next spot and evaluate
-                    */
-                    ++marbleSide[spot+1];
-                    ++spot;
-                }else{
-                    //Done making move
-                    return score(board[], player);
-                }
-            }
-        }
-    }
-
-    int findMove(int[] board, int player){
-        int player1Mancala = board[0];
-        int player2Mancala = board[2];
-        int[] player1Marbles = board[1];
-        int[] player1Marbles = board[3];
-        
-        int move = Integer.MIN_VALUE;
+        //Next score and mvoe nitialized to a minimum value and replaced by the first move found
+        int bestMove = Integer.MIN_VALUE;
         int bestScore = Integer.MIN_VALUE;
         
-        /*For all possible moves test the players move and 
-        evaluate the score after the move then test the 
-        other players best response to the move (Repeat for a
-        desired depth). At the end chose the game state with the
-        best values for the player. Could combine scores to find
-        the best path.
-        */
-        List<Integer> possibleMovesList = new ArrayList<Integer>();
-            
-        if(player == 1){
-            for(int marbleSpot: player1Marbles){
-                //Marble spot is not empty and is a possible move
-                if(marbleSpot != 0){
-                    //Saves the number of the possible spots
-                    possibleMovesList.add(marbleSpot);
-                }
-            }
-            for(int theMove: possibleMove)
-        }else{
-           for(int marbleSpot: player2Marbles){
-                 //Marble spot is not empty and is a possible move
-                if(marbleSpot != 0){
-                    //Saves the number of the possible spots
-                    possibleMovesList.add(marbleSpot);
+        //Switch boards depending on player
+        if(player == 2) {
+            player1Marbles = player2Marbles;
+            player2Marbles = player1Marbles;
+        }
+
+        //Check the game state for all available moves
+        for(int i = 0; i < 6; i++) {
+            if(player1Marbles[i] > 0) {
+                //Get the score of the move
+                allScores[i] = moveMarbles(i, player1Marbles, player2Marbles, player1Mancala, player2Mancala);
+                //Update the best score if the score of the next move is higher or if a move has not been found
+                if(bestMove >= 0 || allScores[i] > bestScore) {
+                    bestMove = i;
+                    bestScore = allScores[i];
                 }
             }
         }
-        // What Ahmed ADDED GENERAL RULE I MADE BUT YOU NEED TO CHANGE IT UP TO FIT THE VARABILE OR WHAT 
-        // YOU THINK THE VALUES AND DEPTH SHOULD BE
-        *// Initial values of  
-// Aplha and Beta 
-static int MAX = 1000; 
-static int MIN = -1000; 
-  
-// Returns optimal value for 
-// current player (Initially called 
-// for root and maximizer) 
-static int minimax(int depth, int nodeIndex,  
-                   Boolean maximizingPlayer, 
-                   int values[], int alpha, 
-                   int beta) 
-{ 
-    // Terminating condition. i.e  
-    // leaf node is reached 
-    if (depth == 3) 
-        return values[nodeIndex]; 
-  
-    if (maximizingPlayer) 
-    { 
-        int best = MIN; 
-  
-        // Recur for left and 
-        // right children 
-        for (int i = 0; i < 2; i++) 
-        { 
-            int val = minimax(depth + 1, nodeIndex * 2 + i, 
-                              false, values, alpha, beta); 
-            best = Math.max(best, val); 
-            alpha = Math.max(alpha, best); 
-  
-            // Alpha Beta Pruning 
-            if (beta <= alpha) 
-                break; 
-        } 
-        return best; 
-    } 
-    else
-    { 
-        int best = MAX; 
-  
-        // Recur for left and 
-        // right children 
-        for (int i = 0; i < 2; i++) 
-        { 
-              
-            int val = minimax(depth + 1, nodeIndex * 2 + i, 
-                              true, values, alpha, beta); 
-            best = Math.min(best, val); 
-            beta = Math.min(beta, best); 
-  
-            // Alpha Beta Pruning 
-            if (beta <= alpha) 
-                break; 
-        } 
-        return best; 
-        */
         
-        return move;
+        System.out.print(bestMove + 1);
     }
+    
+    static int moveMarbles(int move, int[] player1Marbles, int[] player2Marbles, 
+                           int player1Mancala, int player2Mancala) {
+        //Represent marble position and the value of marbles at the current position
+        int[] p1Marbles = new int [6];
+        int[] p2Marbles = new int [6];
+        int p1Mancala = player1Mancala;
+        
+        //The current spot being maniplulated
+        int spot = move;
 
-    static void printNextMove(int player, int player1Mancala, int[] player1Marbles, int player2Mancala, int[] player2Marbles) {
-     
+        //Score resulting from the move
+        int score = 0;
+
+        //Populate the values of the marble positions with the current values of the board
+        for(int i = 0; i < 6; i++) {
+            p1Marbles[i] = player1Marbles[i];
+            p2Marbles[i] = player2Marbles[i];            
+        }
         
-        //Represent the mancala board
-        int[] board = new int[player1Mancala, player1Marbles, player2Mancala, player2Marbles];
+        //The amount of marbles in the marble position chosen for the move
+        int amountToMove = p1Marbles[move];
         
-        //Find next move
+        //If the spot is empty attempt the move
+        if(amountToMove > 0) {
+            //Empty the current position
+            p1Marbles[move] = 0;
+
+            //Continue adding one marble to consecutive positions until no marbles left
+            while(amountToMove > 0) {
+                //Subtract a marble and move spot to maniplulate to next position
+                --amountToMove;
+                ++spot;
+                
+                /*Add one marble to the next position
+                Check if next position is player1's marbles positions or opponent's mancala and skip it
+                else it must your mancala if it's the 7th position (6th index)
+                else it must be player2's marble position (7th-12th index, [0-5 if subtracted by 7])
+                */
+                if(spot < 6 || (spot - 7) == 6) {
+                    if(spot == 13) {
+                        spot = 0;
+                        p1Marbles[spot]++;
+                    } else {
+                        p1Marbles[spot]++;
+                    }
+                } else if (spot == 6) {
+                    ++p1Mancala;
+                } else {
+                    ++p2Marbles[spot-7];   
+                } 
+            }
+
+            //If the final spot to manipulate is the mancala try another set of moves and choose the best
+            if(spot == 6) {
+            int nextBestMove = 0;
+                for(int i = 0; i < 6; i++) {
+                    if(moveMarbles(i, p1Marbles, p2Marbles, p1Mancala, player2Mancala) > nextBestMove) {
+                        nextBestMove = moveMarbles(i, p1Marbles, p2Marbles, p1Mancala, player2Mancala);
+                    }
+                }
+            }
+            
+            //If the final spot is on your side and is empty spot capture the other players marbles
+            if(spot < 6 && p1Marbles[spot] == 0){
+                p1Marbles[spot] = p2Marbles[spot + 6];
+                p2Marbles[spot + 6] = 0;
+            }
+                
+            /*Calculate a heuristic based on the difference between the marbles on 
+            your side and the marbles on the opposing side, with a doubled score for
+            marbles in your mancala and marbles placed on the right side of your board
+            to store as many marbles as possible for when the game ends while capturing
+            the most marbles possible.
+            */
+            int total = 0;
+            
+            for(int i = 0; i < 3; i++) {
+                total = p1Marbles[i] - p2Marbles[i];
+            }
+            
+            for(int i = 3; i < 6; i++){
+                if(p1Marbles[i] > 0){
+                    total = ((p1Marbles[i] * 2) + p2Marbles[i]);
+                }
+            }
+
+            score = total + (p1Mancala - player2Mancala)*2;
+            
+            //Return the score
+            return score;   
+        } else {
+            return Integer.MIN_VALUE;
+        }
     }
 
    public static void main(String[] args) {
-        //Player is defined as next integer in system input stream buffer
         Scanner in = new Scanner(System.in);
         int _player;
         _player = in.nextInt();
         
-        //Player one's mancala is defined as the next integer in the system input stream buffer
         int _player1Mancala;
         _player1Mancala = in.nextInt();
         
-        //Integer representing the amount of marble positions
+        
         int _player1Marbles_size = 6;
-        //Integer array representing the row of marbles with specified size
         int[] _player1Marbles = new int[_player1Marbles_size];
-        //Integer representing the amount of marbles in the spot
         int _player1Marbles_item;
-        //Iterate through each marble position
         for(int _player1Marbles_i = 0; _player1Marbles_i < _player1Marbles_size; _player1Marbles_i++) {
-            //Amount of marbles in the current players marble position are the next number in input stream buffer
             _player1Marbles_item = in.nextInt();
             _player1Marbles[_player1Marbles_i] = _player1Marbles_item;
         }
-       
-        //Player two's mancala is defined as the next integer in the system input stream buffer
+        
         int _player2Mancala;
         _player2Mancala = in.nextInt();
         
-        //Integer representing the amount of marble positions
-        int _player2Marbles_size = 6;        
-        //Integer array representing the row of marbles with specified size
+       
+        int _player2Marbles_size = 6;
         int[] _player2Marbles = new int[_player2Marbles_size];
-        //Integer representing the amount of marbles in the spot
         int _player2Marbles_item;
-        //Add 1 to the marbles until size is reached
         for(int _player2Marbles_i = 0; _player2Marbles_i < _player2Marbles_size; _player2Marbles_i++) {
-            //Amount of marbles in the current players marble position are the next number in input stream buffer
             _player2Marbles_item = in.nextInt();
             _player2Marbles[_player2Marbles_i] = _player2Marbles_item;
         }
         
-        //Print next move with the current player and the curent state of mancala counts and marbles
         printNextMove(_player, _player1Mancala, _player1Marbles, _player2Mancala, _player2Marbles);
         
     }
